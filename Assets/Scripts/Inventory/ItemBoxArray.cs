@@ -39,16 +39,16 @@ public class ItemBoxArray : MonoBehaviour
     void ItemBox()
     {
         if (Input.GetKeyDown(KeyCode.I) && currentIndex < maxItemboxCount)
-            {
-            SpawnItemBox();
+        {
+            SpawnItemBox(1500,1150);
         }
     }
-    void SpawnItemBox()
+    void SpawnItemBox(int width, int height)
     {
-        GameObject newItem = Instantiate(items, itemBoxPosition[currentIndex], Quaternion.identity);
+        GameObject newItem = Instantiate(items, itemBoxPosition[currentIndex], Quaternion.identity, GameObject.FindGameObjectWithTag("BoxUI").transform);
         itemBoxPosition[currentIndex] = newItem.transform.position;
         currentIndex++;
-        if (itemBoxPosition[currentIndex].x >= 1500)
+        if (itemBoxPosition[currentIndex].x >= width)
         {
             itemBoxPosition[currentIndex] += new Vector3(SpawnDistentsRighgt, itemBoxPosition[currentIndex].y);
             itemBoxPosition[currentIndex] += new Vector3(itemBoxPosition[currentIndex].x, SpawnDistentsDown);
@@ -59,11 +59,11 @@ public class ItemBoxArray : MonoBehaviour
             Debug.Log(itemBoxPosition[currentIndex]);
         }
 
-        if (itemBoxPosition[currentIndex].y >= 1150)
+        if (itemBoxPosition[currentIndex].y >= height)
         {
             itemBoxPosition[currentIndex] = itemBoxPosition[currentIndex] + itemBoxPositionOffsetLeft;
         }
 
-        
+
     }
 }
