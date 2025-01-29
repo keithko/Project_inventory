@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HP : MonoBehaviour
 {
+    [SerializeField] GameObject itemDrop;
     [SerializeField] private int maxHp;
     [SerializeField]private float currentHp;
     [SerializeField] public int bDamage;
@@ -60,6 +61,11 @@ public class HP : MonoBehaviour
             }
             else 
             {
+                if (itemDrop != null)
+                {
+                    Instantiate(itemDrop, transform.position, Quaternion.identity);
+                }
+
                 Destroy(gameObject);
             }
         }

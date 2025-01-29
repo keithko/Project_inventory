@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
-using UnityEngine.UIElements;
 
 public class ItemBoxArray : MonoBehaviour
 { 
@@ -27,6 +22,8 @@ public class ItemBoxArray : MonoBehaviour
     { 
         itemBoxPosition = new Vector3[maxItemboxCount];
         spawnItemBox = new GameObject[maxItemboxCount];
+
+        itemBoxPosition[0] = Vector3.zero;
     }
 
     // Update is called once per frame
@@ -45,25 +42,25 @@ public class ItemBoxArray : MonoBehaviour
     }
     void SpawnItemBox(int width, int height)
     {
+        Debug.Log(itemBoxPosition[currentIndex]);
+
         GameObject newItem = Instantiate(items, itemBoxPosition[currentIndex], Quaternion.identity, GameObject.FindGameObjectWithTag("BoxUI").transform);
         itemBoxPosition[currentIndex] = newItem.transform.position;
         currentIndex++;
-        if (itemBoxPosition[currentIndex].x >= width)
+        Vector3 nextPosition = itemBoxPosition[currentIndex - 1];
+        if (nextPosition.x >= width)
         {
-            itemBoxPosition[currentIndex] += new Vector3(SpawnDistentsRighgt, itemBoxPosition[currentIndex].y);
-            itemBoxPosition[currentIndex] += new Vector3(itemBoxPosition[currentIndex].x, SpawnDistentsDown);
+            nextPosition.x = 0; // Reset to the beginning of the row
+            nextPosition.y += SpawnDistentsDown; // Move down to the next row
         }
         else
         {
-            itemBoxPosition[currentIndex] += new Vector3 (itemBoxPosition[currentIndex].x + itemBoxPositionOffsetRight.x,0 ,0);
-            Debug.Log(itemBoxPosition[currentIndex]);
+            nextPosition += itemBoxPositionOffsetRight; // Move to the right
         }
 
-        if (itemBoxPosition[currentIndex].y >= height)
+        if (currentIndex < maxItemboxCount)
         {
-            itemBoxPosition[currentIndex] = itemBoxPosition[currentIndex] + itemBoxPositionOffsetLeft;
+            itemBoxPosition[currentIndex] = nextPosition;
         }
-
-
     }
 }

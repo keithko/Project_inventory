@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RandomLocation : MonoBehaviour
 {
-    [SerializeField] GameObject item;
+    [SerializeField] GameObject enemy;
+    [SerializeField] GameObject targetPlayer;
     [SerializeField] float Radius = 1f;
 
     // Update is called once per frame
@@ -17,7 +19,8 @@ public class RandomLocation : MonoBehaviour
     {
         Vector3 randomPos = Random.insideUnitSphere * Radius;
 
-        Instantiate(item, randomPos, Quaternion.identity);
+       GameObject newEnemy = Instantiate(enemy, randomPos, Quaternion.identity);
+        newEnemy.GetComponent<AIChaise>().player = targetPlayer;
     }
 
     private void OnDrawGizmos()

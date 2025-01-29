@@ -1,18 +1,33 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ItemRetreval : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private List<Image> imageSlots;
+    [SerializeField] private Sprite newItemImage;
 
-    // Update is called once per frame
-    void Update()
+    void OnTriggerEnter(Collider collider)
     {
-        
+        if (collider.gameObject.CompareTag("Player"))
+        {
+            if (imageSlots.Count == 0 || newItemImage == null)
+            {
+                Debug.LogWarning("No image slots assigned or no new image set!");
+                return;
+            }
+
+            foreach (Image img in imageSlots)
+            {
+                if (img.sprite == null)
+                {
+                    img.sprite = newItemImage;
+                    Debug.Log($"Image changed on {img.gameObject.name}");
+
+                    Destroy(gameObject);
+                    return;
+                }
+            }
+        }
     }
 }

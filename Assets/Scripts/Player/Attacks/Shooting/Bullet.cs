@@ -29,7 +29,7 @@ public class Bullet : MonoBehaviour
 
         else
         {
-            StartCoroutine(DisableAfterDelay(10f));
+            StartCoroutine(DisableAfterDelay(30f));
         }
     }
 
